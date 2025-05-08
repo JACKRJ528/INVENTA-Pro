@@ -1,0 +1,46 @@
+
+============================= Correções ========================================
+
+    - Remover/editar atributos na aba de criaçao de categorias
+    - Ao adicionar items que ja existem no bd, filtrar pelos campos preechidos
+
+
+=============== Funções Essenciais de Análise de Estoque =========================
+
+    YES = Itens mais vendidos	Lista dos produtos que mais saíram em determinado período.
+    YES = Itens com menor saída	Produtos que têm pouca ou nenhuma movimentação.
+    YES = Alertas de estoque baixo	Produtos que estão abaixo de uma quantidade mínima configurável.
+    NO = Tempo médio de permanência	Quanto tempo, em média, um produto fica parado antes de sair.
+    NO = Curva ABC	Classificação dos produtos em A, B, C conforme importância/vendas (A = mais importantes, C = menos).
+    YES = Histórico de movimentações	Registro de todas as entradas e saídas, permitindo rastrear o que aconteceu.
+    NO = Sugestão de reposição automática	Baseado nas vendas médias, o sistema sugere quando e quanto comprar.
+    YES = Análise por categoria	Ver o desempenho de cada categoria (ex.: ferramentas vendem mais que químicos).
+    NO = Itens vencidos ou prestes a vencer	Se você trabalhar com validade (ex.: alimentos, químicos).
+    NO = Relatórios financeiros básicos	Valor total do estoque, lucro estimado por venda, etc.
+
+=================================================================================
+
+
+🎯 Extras que deixam o sistema ainda mais forte
+
+Gráficos de movimentação	Visualizar vendas e saídas em gráficos (ex.: barras, linhas).
+Ranking de vendas por período	Quais produtos foram os mais vendidos este mês, ano, etc.
+Análise de sazonalidade	Ver se certos produtos vendem mais em certas épocas (ex.: ferramentas no verão).
+Giro de estoque	Mede a frequência com que o estoque é renovado — estoque parado = prejuízo.
+Análise de lucros por item	Se você registrar preço de compra e venda, pode calcular lucro por item automaticamente.
+
+
+📚 Resumo: as 5 funções que eu recomendaria você começar:
+
+Itens mais vendidos
+
+Itens parados no estoque há muito tempo
+
+Relatórios básicos (valor total de estoque, etc.)
+
+Curva ABC
+
+Sugestão automática de reposição
+
+Gráficos visuais
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

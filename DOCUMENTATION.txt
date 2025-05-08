@@ -1,0 +1,96 @@
+
+    DOCUMENTAÇAO:
+
+        - Estoque
+            1 - Adiçao de tabela externa ao Estoque:
+
+            Para adicionar uma tabela contendo informaçoes de movimentaçao do estoque para alimentar as funçoes analiticas,
+            as seguintes regras devem ser seguidas:
+
+            A tabela deve possuir os seguintes campos e formatos:
+
+            | nome | quantidade |
+
+            Adicione estas duas colunas a tabela e entao digite o nome da categoria que deseja adicionar ou criar para estes itens.
+            Caso a categoria ja exista, os itens dentro dela serao substituidos pelos itens da tabela seguindo o campo "nome", ou seja,
+            esteja certo de que a tabela corresponde a categoria inserida, pois
+
+                            TODOS OS ITENS COM MESMO NOME EXISTENTES NA CATEGORIA SERAO SUBSTITUIDOS PELOS ITENS DA TABELA EXTERNA!
+            Exemplo:
+
+                Caso exista a categoria "Parafusos" criada manualmente ou pela importaçao de uma tabela de historico:
+
+                | ID | nome  | Tipo | quantidade |
+                | 0  | item1 |  A   |     10     |
+                | 1  | item2 |  B   |     10     |
+
+                E é importada a tabela "Parafusos_Estoque_2025" contendo:
+
+                | ID | nome  | Comprimento | Rosca | quantidade |
+                | 0  | item1 |      10     |   M8  |     200    |
+                | 1  | item2 |      15     |  M12  |     350    |
+                | 2  | item3 |      23     |  M10  |     100    |
+                | 3  | item4 |      40     |  M6   |     90     |
+
+                Caso selecionada a categoria "Parafusos" durante a importaçao, o resultado sera:
+
+                | ID | nome  | Tipo | Comprimento | Rosca | quantidade |
+                | 0  | item1 |   A  |      10     |   M8  |     200    |
+                | 1  | item2 |   B  |      15     |  M12  |     350    |
+                | 2  | item3 |      |      23     |  M10  |     100    |
+                | 3  | item4 |      |      40     |  M6   |     90     |
+
+
+            Oservacoes:
+
+                - As colunas NAO tem ordem pre-estabelecidas
+                - Os titulos das colunas devem seguir a formatacao: letras minusculas e sem espacamento ou caracteres de quebra de linha;
+
+        - Historico
+
+            1 - Adiçao de tabela externa ao Historico:
+
+                Para adicionar uma tabela contendo informaçoes de movimentaçao do estoque para alimentar as funçoes analiticas,
+                as seguintes regras devem ser seguidas:
+
+                A tabela deve possuir o seguinte formato, campos e ordem:
+
+                | nome_produto | categoria | quantidade | data_transacao | tipo_transacao |
+
+                Observacoes:
+
+                    - Os valores de "data_transacao" devem ter o formato "yyyy-mm-dd", onde "yyyy" refere-se ao ANO, "mm" ao MES e "dd" ao DIA;
+                    - Os valores de "data_transacao" devem ser separados EXCLUSIVAMENTE por '-' (Codigo ASCII=45 | Codigo binario= 00101101);
+                    - Os valores de "tipo_transacao" devem ser OBRIGATORIAMENTE "ADICIONADO"ou "RETIRADO" de acordo com a natureza da transacao;
+                    - Os valores de "tipo_transacao" devem seguir a formatacao: letras maiusculas e sem espacamento ou caracteres de quebra de linha;
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
