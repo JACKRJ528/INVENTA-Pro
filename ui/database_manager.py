@@ -21,15 +21,6 @@ class DB_Manager:
         self.conn = self.conectar()
         self.cursor = self.conn.cursor()
 
-        self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS produtos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                quantidade INTEGER NOT NULL
-            )
-        """)
-        self.conn.commit()
-
         self.setup_header()
         self.setup_inputs()
         self.setup_treeview()

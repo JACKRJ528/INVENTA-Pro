@@ -7,7 +7,7 @@ from ui.database_log import Log_Manager
 from ui.user_manager import UserManager
 from ui.purchase_orders import PurchaseOrders
 from ui.converter import Converter
-
+from ui.code_scanner import RegistroEntrada
 
 class MainWindow(tk.Tk):
     def __init__(self):
@@ -80,7 +80,8 @@ class MainWindow(tk.Tk):
             ("Histórico", "datalog"),
             ("Análise", "dashboard"),
             ("Usuários", "usertab"),
-            ("Exportar-Importar", "converter")
+            ("Exportar-Importar", "converter"),
+            ("Registrar Entrada", "codescanner")
         ]
 
         for texto, destino in botoes:
@@ -115,6 +116,8 @@ class MainWindow(tk.Tk):
                 Converter().show(self.content_frame, self)
             case "dashboard":
                 Dashboard().show(self.content_frame, self)
+            case "codescanner":
+                RegistroEntrada().show(self.content_frame, self)
 
     # ✅ Função futura para alternar tema
     def alternar_tema(self):

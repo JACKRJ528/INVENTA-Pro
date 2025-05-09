@@ -2,14 +2,16 @@ import tkinter as tk
 from tkinter import messagebox
 import sqlite3
 
-class RegistroEntrada(tk.Frame):
-    def __init__(self, master, db_path):
-        super().__init__(master)
-        self.db_path = db_path
-        self.pack(padx=20, pady=20)
+class RegistroEntrada:
+    def conectar(self):
+        return sqlite3.connect("db/inventa.db")
+    def show(self, content_frame, toplevel):
 
-        tk.Label(self, text="Escaneie o código de barras ou digite manualmente:").pack()
-        self.entry = tk.Entry(self, font=("Arial", 18))
+        self.content_frame = content_frame
+        self.toplevel = toplevel
+
+        tk.Label(self.content_frame, text="Escaneie o código de barras ou digite manualmente:").pack()
+        self.entry = tk.Entry(self.content_frame, font=("Arial", 18))
         self.entry.pack(pady=10)
         self.entry.focus()
         self.entry.bind("<Return>", self.verificar_codigo)
@@ -19,7 +21,7 @@ class RegistroEntrada(tk.Frame):
         if not codigo:
             return
 
-        conn = sqlite3.connect(self.db_path)
+        conn = self.conectar()
         cursor = conn.cursor()
 
         cursor.execute("SELECT id FROM solicitacoes_compra WHERE codigo_rastreio = ? AND atendida = 0", (codigo,))
