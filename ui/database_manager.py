@@ -140,21 +140,47 @@ class DB_Manager:
                         font=("Segoe UI", 10))
         style.map("Treeview", background=[('selected', '#007acc')])
 
-        self.tree = ttk.Treeview(self.content_frame, columns=("Nome", "Quantidade", "Categoria"), show="headings")
+        self.tree = ttk.Treeview(self.content_frame, columns=("Codigo","Nome","Quantidade","Unidade","Valor Unitario","Categoria"), show="headings")
+        self.tree.heading("Codigo", text="Codigo")
         self.tree.heading("Nome", text="Nome")
         self.tree.heading("Quantidade", text="Quantidade")
+        self.tree.heading("Unidade", text="Unidade")
+        self.tree.heading("Valor Unitario", text="Valor Unitario")
         self.tree.heading("Categoria", text="Categoria")
         self.tree.pack(fill=tk.BOTH, expand=True)
         self.tree.bind("<ButtonRelease-1>", self.selecionar_item)
 
     def carregar_produtos(self):
         self.tree.delete(*self.tree.get_children())
+
+        #tudo que ja ta no estoque
+
         self.cursor.execute("""
-            SELECT produtos.id, produtos.nome, produtos.quantidade, categorias.nome 
+            SELECT produtos.codigo, produtos.nome, produtos.quantidade,
+                    produtos.unidade, produtos.valor_unitario ,categorias.nome 
             FROM produtos
             LEFT JOIN categorias ON produtos.categoria_id = categorias.id
         """)
         for row in self.cursor.fetchall():
+            self.tree.insert("", "end", iid=row[0], values=row[1:])
+
+        # tudo que ainda vai chegar no estoque
+        # ADICIONAR BOOL PARA ATIVAR/DESATIVAR
+
+        self.cursor.execute("""
+                SELECT 
+                codigo, 
+                nome, 
+                quantidade,
+                unidade, 
+                valor_unitario, 
+                categoria_id
+                FROM ordens_compra
+            """)
+
+
+        for row in self.cursor.fetchall():
+            print(row)
             self.tree.insert("", "end", iid=row[0], values=row[1:])
 
 

@@ -1,7 +1,32 @@
 
     DOCUMENTAÇAO:
 
+        - considerações
+
+            1 - A funçao de importaçao de XMLs (DANFEs e NFes) contorna toda duplicaçao de itens solicitados atraves de seus
+            codigos unicos, atribuidos durante a emissao dos XMLs. Ao verificar duplicaçao de codigos unicos, o sistema soma
+            as quantidades solicitadas em um unico pedido.
+
+                ex:
+                    entrada:
+                    ______________________________
+                    |        DANFE: 12345        |
+                    |____________________________|
+                    | codigo | nome | quantidade |
+                    |   123  |  Aço |      5     |
+                    |   123  |  Aço |      5     |
+                    |____________________________|
+
+                    resultado:
+                    ______________________________
+                    |        DANFE: 12345        |
+                    |____________________________|
+                    | codigo | nome | quantidade |
+                    |   123  |  Aço |      10    |
+                    |____________________________|
+
         - Estoque
+
             1 - Adiçao de tabela externa ao Estoque:
 
             Para adicionar uma tabela contendo informaçoes de movimentaçao do estoque para alimentar as funçoes analiticas,

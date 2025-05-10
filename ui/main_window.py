@@ -8,6 +8,7 @@ from ui.user_manager import UserManager
 from ui.purchase_orders import PurchaseOrders
 from ui.converter import Converter
 from ui.code_scanner import RegistroEntrada
+from danfe.danfeextractor import DANFEImporter
 
 class MainWindow(tk.Tk):
     def __init__(self):
@@ -81,6 +82,7 @@ class MainWindow(tk.Tk):
             ("Análise", "dashboard"),
             ("Usuários", "usertab"),
             ("Exportar-Importar", "converter"),
+            ("Importar DANFE", "danfeimporter"),
             ("Registrar Entrada", "codescanner")
         ]
 
@@ -118,6 +120,8 @@ class MainWindow(tk.Tk):
                 Dashboard().show(self.content_frame, self)
             case "codescanner":
                 RegistroEntrada().show(self.content_frame, self)
+            case "danfeimporter":
+                DANFEImporter().show(self.content_frame, self)
 
     # ✅ Função futura para alternar tema
     def alternar_tema(self):

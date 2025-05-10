@@ -46,12 +46,16 @@ class PurchaseOrders:
                         font=("Segoe UI", 10))
         style.map("Treeview", background=[('selected', '#007acc')])
 
-        self.tree = ttk.Treeview(self.content_frame, columns=("ID produto","Nome Produto","Quantidade"), show="headings", selectmode="browse")
-        self.tree.heading("ID produto", text="ID Produto")
-        self.tree.heading("Nome Produto", text="Nome Produto")
+        self.tree = ttk.Treeview(self.content_frame,
+                                 columns=("Codigo", "Nome", "Quantidade", "Unidade", "Valor Unitario", "Categoria"),
+                                 show="headings")
+        self.tree.heading("Codigo", text="Codigo")
+        self.tree.heading("Nome", text="Nome")
         self.tree.heading("Quantidade", text="Quantidade")
-        self.tree.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
+        self.tree.heading("Unidade", text="Unidade")
+        self.tree.heading("Valor Unitario", text="Valor Unitario")
+        self.tree.heading("Categoria", text="Categoria")
+        self.tree.pack(fill=tk.BOTH, expand=True)
         self.tree.bind("<ButtonRelease-1>", self.selecionar_item)
 
     def setup_botoes(self):
@@ -70,11 +74,20 @@ class PurchaseOrders:
 
         conn = self.conectar()
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT id_produto,nome_produto, quantidade FROM ordens_compra")
+        cursor.execute("""
+                        SELECT 
+                        id,
+                        codigo, 
+                        nome, 
+                        quantidade,
+                        unidade, 
+                        valor_unitario, 
+                        categoria_id
+                        FROM ordens_compra
+                    """)
 
-        for ordem in cursor.fetchall():
-            self.tree.insert("", "end", values=ordem)
+        for row in cursor.fetchall():
+            self.tree.insert("", "end", iid=row[0], values=row[1:])
 
     def selecionar_item(self, event):
         item_id = self.tree.identify_row(event.y)  # identifica o item clicado baseado na posição Y

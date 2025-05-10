@@ -20,14 +20,18 @@ def inicializar_banco():
         )
     ''')
     # Tabela de ordem de compra
-    cursor.execute('''
-            CREATE TABLE IF NOT EXISTS ordens_compra (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_produto INTEGER NOT NULL,
-                nome_produto TEXT NOT NULL,
-                quantidade INTEGER NOT NULL
-            )
-        ''')
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS ordens_compra (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            codigo TEXT,
+            nome TEXT,
+            quantidade REAL,
+            unidade TEXT,
+            valor_unitario REAL,
+            categoria_id INTEGER,
+            FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+        )
+    """)
 
 
 
@@ -49,12 +53,16 @@ def inicializar_banco():
         )
     ''')
 
+
     # Tabela de produtos
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS produtos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            quantidade INTEGER NOT NULL,
+            codigo TEXT,
+            nome TEXT,
+            quantidade REAL,
+            unidade TEXT,
+            valor_unitario REAL,
             categoria_id INTEGER,
             FOREIGN KEY (categoria_id) REFERENCES categorias(id)
         )

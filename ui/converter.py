@@ -36,8 +36,10 @@ class Converter:
         # Importar Tabela Externa
         importar_label = tk.Label(container, text="Importar Planilha Externa", font=("Segoe UI", 12), fg="white", bg="#2d2d2d")
         importar_label.grid(row=3, column=0, sticky="w", padx=10, pady=20)
+
         importar_btn = tk.Button(container, text="Importar Excel/CSV", command=self.importar_tabela, bg="#5aaf44", fg="white", relief="flat")
         importar_btn.grid(row=4, column=0, padx=10, pady=5)
+
 
     def exportar_historico(self):
         try:
