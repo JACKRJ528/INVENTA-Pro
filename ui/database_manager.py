@@ -154,18 +154,18 @@ class DB_Manager:
         self.tree.delete(*self.tree.get_children())
 
         #tudo que ja ta no estoque
-
+        all = []
         self.cursor.execute("""
             SELECT produtos.codigo, produtos.nome, produtos.quantidade,
                     produtos.unidade, produtos.valor_unitario ,categorias.nome 
             FROM produtos
             LEFT JOIN categorias ON produtos.categoria_id = categorias.id
         """)
-        for row in self.cursor.fetchall():
-            self.tree.insert("", "end", iid=row[0], values=row[1:])
-
+        for i in self.cursor.fetchall():
+            all.append(i)
         # tudo que ainda vai chegar no estoque
         # ADICIONAR BOOL PARA ATIVAR/DESATIVAR
+        self.conn.commit()
 
         self.cursor.execute("""
                 SELECT 
@@ -178,9 +178,9 @@ class DB_Manager:
                 FROM ordens_compra
             """)
 
-
-        for row in self.cursor.fetchall():
-            print(row)
+        for i in self.cursor.fetchall():
+            all.append(i)
+        for row in all:
             self.tree.insert("", "end", iid=row[0], values=row[1:])
 
 
@@ -375,19 +375,27 @@ class DB_Manager:
     def mostrar_categoria(self, categoria_nome):
         self.tree.delete(*self.tree.get_children())
 
-        conn = sqlite3.connect("db/inventa.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT id FROM categorias WHERE nome = ?", (categoria_nome,))
-        resultado = cursor.fetchone()
+
+        self.cursor.execute("SELECT id FROM categorias WHERE nome = ?", (categoria_nome,))
+        resultado = self.cursor.fetchone()
         if not resultado:
             return
         categoria_id = resultado[0]
+        self.cursor.execute("""
+                SELECT
+                codigo, 
+                nome, 
+                quantidade,
+                unidade, 
+                valor_unitario, 
+                categoria_id
+                FROM produtos
+                WHERE categoria_id = ?
+                """,(categoria_id,))
+        produtos_infos = self.cursor.fetchall()
 
-        cursor.execute("SELECT id, nome, quantidade FROM produtos WHERE categoria_id = ?", (categoria_id,))
-        produtos_infos = cursor.fetchall()
-
-        cursor.execute("SELECT nome_atributo FROM atributos WHERE categoria_id = ?", (categoria_id,))
-        atributos = [row[0] for row in cursor.fetchall()]
+        self.cursor.execute("SELECT nome_atributo FROM atributos WHERE categoria_id = ?", (categoria_id,))
+        atributos = [row[0] for row in self.cursor.fetchall()]
 
         self.tree["columns"] = ["ID"] + ["Nome"] + atributos + ["Quantidade"]
         for col in self.tree["columns"]:
@@ -395,12 +403,12 @@ class DB_Manager:
             self.tree.column(col, anchor="w", width=120)
 
         for pid, nome_produto, quantidade in produtos_infos:
-            cursor.execute("SELECT nome_atributo, valor FROM valores_atributos WHERE produto_id = ?", (pid,))
-            dados = {nome: valor for nome, valor in cursor.fetchall()}
+            self.cursor.execute("SELECT nome_atributo, valor FROM valores_atributos WHERE produto_id = ?", (pid,))
+            dados = {nome: valor for nome, valor in self.cursor.fetchall()}
             linha = [pid] + [nome_produto] + [dados.get(attr, "") for attr in atributos] + [quantidade]
             self.tree.insert("", tk.END, values=linha)
 
-        conn.close()
+        self.conn.commit()
 
         for widget in self.frame_inputs.winfo_children():
             widget.destroy()
